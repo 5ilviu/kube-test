@@ -1,0 +1,98 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minimal-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /chocolate
+        pathType: Prefix
+        backend:
+          service:
+            name: chocolate-sweet-service
+            port:
+              number: 8080
+      - path: /ice-cream
+          pathType: Prefix
+          backend:
+            service:
+              name: ice-cream-sweet-service
+              port:
+                number: 80
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chocolate-sweet-service
+spec:
+  selector:
+    app: chocolate-sweet-python
+  type: LoadBalancer
+  ports:
+  - protocol: "TCP"
+    port: 8080
+    targetPort: 8888
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chocolate-sweet-python
+spec:
+  selector:
+    matchLabels:
+      app: chocolate-sweet-python
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: chocolate-sweet-python
+    spec:
+      containers:
+      - name: chocolate
+        image: chocolate:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8888
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ice-cream-sweet-service
+spec:
+  selector:
+    app: ice-cream-sweet-python
+  type: LoadBalancer
+  ports:
+  - protocol: "TCP"
+    port: 8080
+    targetPort: 8888
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ice-cream-sweet-python
+spec:
+  selector:
+    matchLabels:
+      app: ice-cream-sweet-python
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ice-cream-sweet-python
+    spec:
+      containers:
+      - name: ice-cream
+        image: ice-cream:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8888

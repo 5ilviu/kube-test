@@ -1,0 +1,8 @@
+This is a database migration repository.
+
+More information at
+http://code.google.com/p/sqlalchemy-migrate/
+
+Please create "chocolate" database first
+
+python chocolate_repository/manage.py upgrade postgresql://postgres:mata@localhost:5432/chocolate chocolate_repository

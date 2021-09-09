@@ -1,0 +1,7 @@
+docker build -t chocolate:latest .
+
+docker run -p 8888:8888 --name chocolate chocolate:latest
+
+docker start chocolate
+
+docker stop chocolate
