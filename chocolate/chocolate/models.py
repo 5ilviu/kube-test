@@ -27,7 +27,7 @@ class ChocolatePostgresRepository(ChocolateRepository):
         with Session() as session:
             entity = session.query(ChocolateEntity).get(uid)
             if entity is None:
-                return  # todo add proper throws condition here
+                raise NotFoundException("chocolate not found")
             session.delete(entity)
             session.commit()
 
@@ -35,7 +35,7 @@ class ChocolatePostgresRepository(ChocolateRepository):
         with Session() as session:
             entity = session.query(ChocolateEntity).get(chocolate.id)
             if entity is None:
-                return  # todo add proper throws condition here
+                raise NotFoundException("chocolate not found")
             entity.name = chocolate.name
             session.add(entity)
             session.commit()

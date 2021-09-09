@@ -32,11 +32,13 @@ class ChocolateView(ChocolateBaseView):
         chocolate = self.service.get(uid)
         self.write(self.encode_chocolate(chocolate))
 
+    @exception_handler
     def delete(self, uid):
         uid = uuid.UUID(uid)
         self.service.delete(uid)
         self.set_status(204)
 
+    @exception_handler
     def put(self, uid):
         chocolate = json.loads(self.request.body.decode('utf-8'), object_hook=lambda d: Chocolate(**d))
         chocolate.id = uid
