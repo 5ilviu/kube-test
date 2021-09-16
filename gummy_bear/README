@@ -1,0 +1,3 @@
+needs:
+ apt install uvicorn
+ pip install httptools==0.1.*
